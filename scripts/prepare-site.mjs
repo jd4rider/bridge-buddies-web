@@ -7,10 +7,13 @@
  *  - Compression. A Brotli export needs `Content-Encoding: br`, which Pages
  *    cannot send, so the loader would die before the first frame. Any `.br`
  *    payload is expanded and `index.html` pointed at the plain names.
- *  - Layout. The stock template pins a fixed 540 x 960 window in the middle of
- *    a desktop page, and stretches the canvas across the whole viewport on
- *    phones. Both branches are replaced with one fit-to-screen rule that keeps
- *    the 9:16 aspect ratio, letterboxes, and centres it.
+ *  - Layout. An export can ship either its own full-viewport layout or the
+ *    stock template, which pins a fixed 540 x 960 window in the middle of a
+ *    desktop page and stretches the canvas on phones. When the export already
+ *    sizes itself (the current one fills the viewport at any aspect ratio) it
+ *    is left untouched; when it does not, both branches are replaced with one
+ *    fit-to-screen rule that keeps the 9:16 aspect ratio, letterboxes and
+ *    centres it.
  *
  *   node scripts/prepare-site.mjs
  *
@@ -140,23 +143,38 @@ async function main() {
   }
   html = html.replaceAll('.br"', '"')
 
-  // 3a. Read the canvas size out of the export so a re-export at a different
-  //     resolution needs no code change.
-  const canvas = html.match(/<canvas id="unity-canvas"[^>]*width="(\d+)"[^>]*height="(\d+)"/)
-  if (!canvas) throw new Error('could not read the canvas size from index.html')
-  const [, width, height] = canvas.map(Number)
+  // 3. Layout. An export that sizes its own play area is used exactly as Unity
+  //    generated it: re-fitting a game that fills the viewport back into the
+  //    old fixed window would throw that away.
+  const templateCss = await readFile(join(play, 'TemplateData/style.css'), 'utf8').catch(() => '')
+  const ownLayoutHtml = html.includes('fullscreenContainer.style.width = "100%"')
+  const ownLayoutCss = /#unity-canvas\s*\{[^}]*width:\s*100%/.test(templateCss)
+  const hasOwnLayout = ownLayoutHtml && ownLayoutCss
+  let playArea
 
-  // 3b. Replace the whole `if (mobile) {...} else {...}` layout branch.
-  const marker = 'if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))'
-  const start = html.indexOf(marker)
-  if (start === -1) throw new Error('Unity template changed: could not find the user-agent layout branch')
-  const mobileEnd = matchBrace(html, html.indexOf('{', start))
-  const elseBlock = /^\s*else\s*\{/.exec(html.slice(mobileEnd))
-  if (!elseBlock) throw new Error('Unity template changed: the layout branch has no else block')
-  const end = matchBrace(html, mobileEnd + elseBlock[0].length - 1)
-  html = html.slice(0, start) + fitScript(width, height) + html.slice(end)
-  if (!html.includes('fitToWindow')) throw new Error('canvas fit patch did not apply')
-  if (html.includes('navigator.userAgent')) throw new Error('user-agent layout branch survived the patch')
+  if (hasOwnLayout) {
+    console.log('export ships its own full-viewport layout: no canvas patch applied')
+    playArea = "the export's own full-viewport layout"
+  } else {
+    // 3a. Read the canvas size out of the export so a re-export at a different
+    //     resolution needs no code change.
+    const canvas = html.match(/<canvas id="unity-canvas"[^>]*width="(\d+)"[^>]*height="(\d+)"/)
+    if (!canvas) throw new Error('could not read the canvas size from index.html')
+    const [, width, height] = canvas.map(Number)
+
+    // 3b. Replace the whole `if (mobile) {...} else {...}` layout branch.
+    const marker = 'if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))'
+    const start = html.indexOf(marker)
+    if (start === -1) throw new Error('Unity template changed: could not find the user-agent layout branch')
+    const mobileEnd = matchBrace(html, html.indexOf('{', start))
+    const elseBlock = /^\s*else\s*\{/.exec(html.slice(mobileEnd))
+    if (!elseBlock) throw new Error('Unity template changed: the layout branch has no else block')
+    const end = matchBrace(html, mobileEnd + elseBlock[0].length - 1)
+    html = html.slice(0, start) + fitScript(width, height) + html.slice(end)
+    if (!html.includes('fitToWindow')) throw new Error('canvas fit patch did not apply')
+    if (html.includes('navigator.userAgent')) throw new Error('user-agent layout branch survived the patch')
+    playArea = `${width}x${height} play area`
+  }
 
   // 4. Page furniture: a title worth sharing, a viewport that phones honour, and
   //    the game's own colour behind the letterbox bars instead of white.
@@ -191,13 +209,17 @@ async function main() {
   }
   const loader = await readFile(join(play, 'index.html'), 'utf8')
   if (loader.includes('.br"')) throw new Error('index.html still references compressed payload')
-  if (!loader.includes('fitToWindow')) throw new Error('site/play/index.html lost the fit patch')
+  if (hasOwnLayout) {
+    if (loader !== html) throw new Error('site/play/index.html lost the export layout')
+  } else if (!loader.includes('fitToWindow')) {
+    throw new Error('site/play/index.html lost the fit patch')
+  }
 
   const wasm = await readFile(join(play, 'Build/WebGL.wasm')).catch(() => null)
   if (!wasm || wasm.subarray(0, 4).toString('latin1') !== '\0asm') {
     throw new Error('WebGL.wasm is not a wasm module (compressed payload?)')
   }
-  console.log(`site/ is ready: site/play/ serves the Unity build (${width}x${height} play area)`)
+  console.log(`site/ is ready: site/play/ serves the Unity build (${playArea})`)
 }
 
 main().catch((error) => {

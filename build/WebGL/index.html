@@ -114,9 +114,12 @@
 
 
       } else {
-        // Desktop style: Render the game canvas container in a window that can be maximized to fullscreen:
-        fullscreenContainer.style.width = "540px";
-        fullscreenContainer.style.height = "960px";
+        // Responsive: fill the whole browser viewport rather than a fixed
+        // WIDTH x HEIGHT window. A bridge profile read side-on wants every
+        // pixel of width the page can spare, and on a phone the viewport is
+        // already portrait, so one rule serves both.
+        fullscreenContainer.style.width = "100%";
+        fullscreenContainer.style.height = "100%";
       }
 
 

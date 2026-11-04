@@ -2,7 +2,7 @@
   "id": "bridge-buddies",
   "name": "Bridge Buddies",
   "tagline": "Build it. Test it. Get them across.",
-  "description": "A miniature 3D bridge-engineering puzzle, rebuilt in Unity and rendered straight from the WebGL player. Buy planks, beams and bracing out of a fixed budget, tap between posts to raise a truss, then press TEST and watch a little buddy drive across the span you just built. The bridge is a real structural solve rather than a canned animation: every member carries axial force and bending moment, the deck sags under the wheels and the vehicle rides the sag, and an overloaded member lets go instead of pretending it is fine. Portrait 9:16 play area scaled to fit any screen, mouse and touch input, no install and no download.",
+  "description": "A miniature 3D bridge-engineering puzzle, rebuilt in Unity and rendered straight from the WebGL player. Buy planks, beams and bracing out of a fixed budget, tap between posts to raise a truss, then press TEST and watch a little buddy drive across the span you just built. The bridge is a real structural solve rather than a canned animation: every member carries axial force and bending moment, the deck sags under the wheels and the vehicle rides the sag, and an overloaded member lets go instead of pretending it is fine. A full-viewport play area that fits any screen - phone portrait or desktop widescreen - with mouse and touch input, no install and no download.",
   "categories": ["Physics", "Puzzle", "Strategy", "Casual"],
   "runtime": "Unity WebGL",
   "version": "0.1.0",
@@ -20,7 +20,7 @@
     "A real structural solve: axial force and bending moment on every member",
     "The deck sags under the vehicle, and the vehicle rides the sag",
     "Place the deck, the truss and the piers, then press TEST to watch it cross",
-    "Portrait 9:16 play area that fills a phone and letterboxes on desktop",
+    "Fills the whole screen at any aspect ratio, phone portrait or desktop",
     "Mouse and touch input, no install and no download"
   ],
   "howToPlay": [
