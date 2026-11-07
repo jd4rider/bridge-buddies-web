@@ -52,7 +52,7 @@ curl -s -r 0-3 https://jd4rider.github.io/bridge-buddies-web/play/Build/WebGL.wa
 # expect 0061736d (\0asm) - a Brotli or gzip payload would start with something else
 ```
 
-A 200 is not proof the game runs: the payload is 61 MB, so also open the URL in a
+A 200 is not proof the game runs: the payload is 56 MB, so also open the URL in a
 browser and wait for the progress bar to disappear.
 
 ## Publishing to the catalogue
@@ -75,7 +75,7 @@ git add -A && git commit -m "Point Bridge Buddies at the Unity build" && git pus
 
 ## Payload notes
 
-- 61 MB total, 47.8 MB of it `WebGL.wasm`. GitHub Pages allows 1 GB per site and
+- 56 MB total, 44.8 MB of it `WebGL.wasm`. GitHub Pages allows 1 GB per site and
   100 MB per file, so the build fits, but the first load is slow on mobile.
 - Pages gzips the wasm in transit; the payload is stored uncompressed because a
   Brotli export would need `Content-Encoding: br`, which Pages cannot send.

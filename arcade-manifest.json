@@ -1,12 +1,12 @@
 {
   "id": "bridge-buddies",
   "name": "Bridge Buddies",
-  "tagline": "Build it. Test it. Get them across.",
-  "description": "A miniature 3D bridge-engineering puzzle, rebuilt in Unity and rendered straight from the WebGL player. Buy planks, beams and bracing out of a fixed budget, tap between posts to raise a truss, then press TEST and watch a little buddy drive across the span you just built. The bridge is a real structural solve rather than a canned animation: every member carries axial force and bending moment, the deck sags under the wheels and the vehicle rides the sag, and an overloaded member lets go instead of pretending it is fine. A full-viewport play area that fits any screen - phone portrait or desktop widescreen - with mouse and touch input, no install and no download.",
+  "tagline": "Carry it. Snap it. Get them across.",
+  "description": "A miniature 3D bridge-engineering puzzle, rebuilt in Unity and rendered straight from the WebGL player. Carry a plank, a brace or a pier out of the tray and a glowing green ghost shows exactly where it will land; let go near a slot and it snaps home. Every member carries axial force and bending moment, the deck sags under the wheels and the vehicle rides the sag, and an overloaded member lets go instead of pretending it is fine. Sixteen bridges are laid out on a journey map across four chapters of the ravine, each one a different shape, depth, budget and vehicle - from a hatchback on four short planks to a tipper on a truss that has to be pinned at every joint. Progress and medals are saved between sessions. Full-viewport play area at any aspect ratio, mouse and touch input, no install and no download.",
   "categories": ["Physics", "Puzzle", "Strategy", "Casual"],
   "runtime": "Unity WebGL",
-  "version": "0.1.0",
-  "updated": "2026-11-04",
+  "version": "0.2.0",
+  "updated": "2026-11-07",
   "status": "live",
   "featured": true,
   "playUrl": "https://jd4rider.github.io/bridge-buddies-web/play/",
@@ -16,19 +16,21 @@
   "downloads": [],
   "cover": { "from": "#8fd0e8", "to": "#2f5d3a", "emoji": "🌉" },
   "highlights": [
-    "Native Unity WebGL build with real 3D rendering, not a 2D stand-in",
+    "Carry a piece and a shining green ghost shows where it will snap into place",
+    "A 16-bridge journey map across four chapters, with progress and medals saved",
+    "Every bridge is a different ravine: panel count, truss depth, budget and vehicle",
     "A real structural solve: axial force and bending moment on every member",
     "The deck sags under the vehicle, and the vehicle rides the sag",
-    "Place the deck, the truss and the piers, then press TEST to watch it cross",
     "Fills the whole screen at any aspect ratio, phone portrait or desktop",
     "Mouse and touch input, no install and no download"
   ],
   "howToPlay": [
-    "Open the game and wait for the Unity progress bar - the first load streams about 61 MB",
-    "Tap between two posts to place a member, and keep an eye on the budget",
-    "Add bracing and piers until TEST shows the structure holding",
-    "Press TEST and watch the buddy drive across the span"
+    "Open the game and wait for the Unity progress bar - the first load streams about 56 MB",
+    "Drag a piece out of the tray at the bottom. The green ghost shows the slot it will take",
+    "Let go near a slot to snap it in; the budget bar shows what is left to spend",
+    "Press CROSS and watch the buddy drive the bridge you built",
+    "Cross a bridge to unlock the next stop on the journey map"
   ],
-  "levels": "Unity WebGL build · build-and-test challenges",
-  "saveKey": ""
+  "levels": "16 bridges · 4 chapters · journey map progression",
+  "saveKey": "bb.journey"
 }
