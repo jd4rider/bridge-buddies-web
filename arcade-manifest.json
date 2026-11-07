@@ -3,9 +3,14 @@
   "name": "Bridge Buddies",
   "tagline": "Carry it. Snap it. Get them across.",
   "description": "A miniature 3D bridge-engineering puzzle, rebuilt in Unity and rendered straight from the WebGL player. Carry a plank, a brace, a cable or a pier out of the tray and a glowing green ghost shows exactly where it will land; let go near a slot and it snaps home. Cables only pull: they are cheap and light, but the solver lets one go slack the moment it would have to push. Every member carries axial force and bending moment, the deck sags under the wheels and the vehicle rides the sag, and an overloaded member lets go instead of pretending it is fine. Sixteen bridges are laid out on a journey map across four chapters of the ravine, each one a different shape, depth, budget and vehicle - from a hatchback on four short planks to a tipper on a truss that has to be pinned at every joint. Progress and medals are saved between sessions. Full-viewport play area at any aspect ratio, mouse and touch input, no install and no download.",
-  "categories": ["Physics", "Puzzle", "Strategy", "Casual"],
+  "categories": [
+    "Physics",
+    "Puzzle",
+    "Strategy",
+    "Casual"
+  ],
   "runtime": "Unity WebGL",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "updated": "2026-11-07",
   "status": "live",
   "featured": true,
@@ -14,7 +19,11 @@
   "repoUrl": "https://github.com/jd4rider/bridge-buddies-web",
   "releasesUrl": "https://github.com/jd4rider/bridge-buddies-web/releases",
   "downloads": [],
-  "cover": { "from": "#8fd0e8", "to": "#2f5d3a", "emoji": "🌉" },
+  "cover": {
+    "from": "#8fd0e8",
+    "to": "#2f5d3a",
+    "emoji": "🌉"
+  },
   "highlights": [
     "Carry a piece and a shining green ghost shows where it will snap into place",
     "A 16-bridge journey map across four chapters, with progress and medals saved",
